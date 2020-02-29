@@ -91,15 +91,48 @@ You'll be presented with a prompt similar to this:
 ```bash
 root@containerid:~/foam/foam-extend-4/ $
 ```
-This tels as:
+This tells us that:
 - We are acting as `root` inside the container with the unique id `containerid`.
 - the current directory is `/root/foam/foam-extend-4`
 
 Try to run the same commands we ran back in the **Basic system commands** section and
 answer the same questions.
 
-> At this point, you should press Ctrl-D multiple times until you leave the SSH system
+> At this point, you should press Ctrl-D multiple times until you leave the SSH session
 
 ## Intermediate-level skills
+
+The docker container actually exposes port 8888 to the remote system - for running jupyter
+notebooks - so, if you are interrested, you can also forward the same port fomr the remote
+machine to your local one. This should happen when you create the SSH session:
+
+```bash
+> ssh -i ~/.ssh/testmachine.pem -L 8888:localhost:8888 linux1@xxx.xxx.xxx.xxx
+```
+
+Now if you run `jupyter notebook --no-browser` on the remote machine, and go to
+`http://localhost:8888/?token=....` (the link is provided in the output of the previous command)
+you should be able to access the jupyter server.
+
+Try it out, it's fun.
+
+One other thing an intermediate user would attempt to do, is to mount a directory of the remote 
+machine directly on his/her local machine using, for example, the SSHFS tool.
+
+Simply put, 
+```bash
+> mkdir -p ~/ResEngCourse/myproject    # Create a local directory to mount things on
+> sshfs -o IdentityFile=~/.ssh/linuxonekey.pem\
+        linux1@xxx.xxx.xxx.xxx:/path/to/remote_directory ~/ResEngCourse/myproject
+```
+
+You can then use `df -h` locally (or an equivalent command) to check if the directory
+is mounted correctly.
+
+Mounting the remote directory on the local filesystem in this way is generally a better
+option than relying on your text editor's ability to deal with remote files. Now you 
+can use your local tools to edit these files!
+
+To unmout, run `fusermount -u ~/ResEngCourse/myproject`. That's it.
 
 ## Advanced-level skills
