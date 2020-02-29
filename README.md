@@ -7,7 +7,8 @@
 
 ## Basic-level skills
 
-Access your remote machine with the most basic command (The first > denotes that the user is a regular user):
+Access your remote machine with the most basic command (The first > denotes that 
+the user is a regular user):
 
 ```bash
 > ssh -i ~/.ssh/testmachine.pem linux1@xxx.xxx.xxx.xxx
@@ -18,6 +19,9 @@ Where:
   your local machine.
 - `linux1` is the user you intend to act as on the remote machine.
 - `xxx.xxx.xxx.xxx` is the specific IP address of the remote machine.
+
+> Adding `-x -C` flags to the SSH command might help if you experience 
+> sluggish terminal behavior!
 
 ### Basic system commands
 
@@ -107,12 +111,15 @@ notebooks - so, if you are interrested, you can also forward the same port fomr 
 machine to your local one. This should happen when you create the SSH session:
 
 ```bash
-> ssh -i ~/.ssh/testmachine.pem -L 8888:localhost:8888 linux1@xxx.xxx.xxx.xxx
+> ssh -x -C -i ~/.ssh/testmachine.pem -L 8888:localhost:8888 linux1@xxx.xxx.xxx.xxx
 ```
 
-Now if you run `jupyter notebook --no-browser` on the remote machine, and go to
+> Hey, alias that command to `l1c` or something
+
+Now if you run `jupyter notebook --no-browser` inside the container on the remote machine, 
+and then go to
 `http://localhost:8888/?token=....` (the link is provided in the output of the previous command)
-you should be able to access the jupyter server.
+in your local browser, you should be able to access the jupyter server.
 
 Try it out, it's fun.
 
@@ -164,5 +171,11 @@ ForwardX11Trusted yes
 
 Also, don't forget to restart the SSH service
 ```bash
-sudo systemctl restart sshd
+> sudo systemctl restart sshd
+```
+
+To engage in an X-Forwarding-Enabled SSH session, you can run:
+```bash
+> ssh -XC -c aes128-gcm@openssh.com \
+      -i ~/.ssh/testmachine.pem linux1@165.165.xxx.xxx
 ```
