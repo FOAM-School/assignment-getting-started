@@ -136,3 +136,33 @@ can use your local tools to edit these files!
 To unmout, run `fusermount -u ~/ResEngCourse/myproject`. That's it.
 
 ## Advanced-level skills
+
+The remote has an X server installed by default :smile:, you can leverage it to forward GUI
+applications to your local machine.
+
+> A note: I use this trick for nothing else than visually **monitoring simulation results**
+> (which are running on remote machines) on my local machine!
+
+For this to work, we need the `xauth` package to be installed on the remote machine:
+```bash
+> sudo yum -y install xauth
+```
+
+In addition, X11 Forwarding is enabled by default on the server, take a look at
+`/etc/ssh/sshd_config` file, it should say:
+
+```bash
+X11Forwarding yes
+```
+
+Make sure to enable trusted X11 forwarding as well on your local machine (in your local
+`/etc/ssh/ssh_config`, you may have to uncomment these lines):
+```bash
+ForwardX11 yes
+ForwardX11Trusted yes
+```
+
+Also, don't forget to restart the SSH service
+```bash
+sudo systemctl restart sshd
+```
