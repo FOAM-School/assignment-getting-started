@@ -142,6 +142,17 @@ can use your local tools to edit these files!
 
 To unmout, run `fusermount -u ~/ResEngCourse/myproject`. That's it.
 
+In addition, you may have noticed that once you leave the SSH session, all processes
+started by that particular session get stopped. To prevent this from happening:
+- Install tmux (or any other multiplexer you might prefer) on the remote system: 
+  `sudo yum install -y tmux`
+- Instead of running the command you want to be persistent in the shell, start tmux 
+  and run it there.
+- Press Ctrl-b then d to detach the tmux session
+- You can leave the SSH session now, the process your started on the tmux session
+  won't be killed
+- If you want to get back to that process, just type `tmux attach`.
+
 ## Advanced-level skills
 
 The remote has an X server installed by default :smile:, you can leverage it to forward GUI
