@@ -1,3 +1,9 @@
+> You just got a copy of the assignment repository.
+> Ideally, you would write code/edit case files and commit
+> your changes to this repo (your own copy of the original 
+> assignment repo)
+> But this is not needed for this practice assignment!
+
 # Assignment for the getting-started lecture
 
 ## Goals
